@@ -14,6 +14,9 @@
 | month               | integer | null: false               |
 | date                | integer | null: false               |
 
+### Association
+- has_many :items
+
 
 ## items テーブル
 | Column              | Type        | Options                        |
@@ -28,6 +31,10 @@
 | price               | integer     | null: false                    |
 | user_id             | references  | null: false, foreign_key: true |
 
+### Association
+- belongs_to :user
+- has_one :sold_item
+
 ## sold_items テーブル
 | Column              | Type        | Options                        |
 | ------------------- | ----------- | ------------------------------ |
@@ -38,3 +45,6 @@
 | building            | string      |                                |
 | tel                 | integer     | null: false                    |
 | item_id             | references  | null: false, foreign_key: true |
+
+### Association
+- belongs_to :item
