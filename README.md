@@ -56,4 +56,4 @@
 | purchase_item       | references  | null: false, foreign_key: true |
 
 ### Association
-- belongs_to :item
+- belongs_to :purchase_item
