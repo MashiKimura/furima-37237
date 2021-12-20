@@ -52,7 +52,7 @@
 | city                | string      | null: false                    |
 | street_address      | string      | null: false                    |
 | building            | string      |                                |
-| tel                 | integer     | null: false                    |
+| tel                 | string      | null: false                    |
 | purchase_item       | references  | null: false, foreign_key: true |
 
 ### Association
