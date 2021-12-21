@@ -19,7 +19,9 @@ class User < ApplicationRecord
   validates_format_of :first_name, with: NAME_REGEX
 
   NAME_RUBY_REGEX = /\A[ァ-ヶ]+\z/.freeze
-  validates_format_of :last_name_ruby, with: NAME_RUBY_REGEX 
+  validates_format_of :last_name_ruby, with: NAME_RUBY_REGEX
   validates_format_of :first_name_ruby, with: NAME_RUBY_REGEX
+
+
 
 end
