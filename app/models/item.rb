@@ -13,11 +13,11 @@ class Item < ApplicationRecord
   with_options presence: true do
     validates :name
     validates :explanation
-    validates :category_id, numericality: { other_than: 1 }
-    validates :situation_id
-    validates :delivery_id
-    validates :prefecture_id
-    validates :shipping_day_id
+    validates :category_id, numericality: { other_than: 1, message: "can't be blank" }
+    validates :situation_id, numericality: { other_than: 1, message: "can't be blank" }
+    validates :delivery_id, numericality: { other_than: 1, message: "can't be blank" }
+    validates :prefecture_id, numericality: { other_than: 1, message: "can't be blank" }
+    validates :shipping_day_id, numericality: { other_than: 1, message: "can't be blank" }
     validates :price
   end
 
