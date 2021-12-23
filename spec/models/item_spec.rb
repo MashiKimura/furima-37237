@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Item, type: :model do
   before do
-    @Item = FactoryBot.build(:item)
+    @item = FactoryBot.build(:item)
   end
 
   describe  '商品出品機能' do
@@ -12,6 +12,10 @@ RSpec.describe Item, type: :model do
     end
     context '商品の出品ができないとき' do
       it '画像が空では登録できない' do
+        @item.image = nil
+        @item.valid?
+        binding.pry
+        expect(@item.errors.full_messages).to include(" can't be blank")
       end
       it '商品名が空では登録できない' do
       end
@@ -50,6 +54,8 @@ RSpec.describe Item, type: :model do
       it '価格が入力されたら販売手数料が変動する' do
       end
       it '価格が入力されたら販売利益が変動する' do
+      end
+      it 'userと紐づいていないと登録できない' do
       end
     end
   end
