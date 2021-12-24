@@ -45,6 +45,12 @@ class ItemsController < ApplicationController
 
   def authenticate_seller
     @item = Item.find(params[:id])
-    redirect_to root_path unless user_signed_in? && current_user == @item.user
+    if user_signed_in?
+      unless current_user == @item.user
+        redirect_to root_path
+      end
+    else
+      redirect_to new_user_session_path
+    end
   end
 end
