@@ -45,16 +45,19 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:name, :explanation, :category_id, :situation_id, :delivery_id, :prefecture_id,
                                  :shipping_day_id, :price, :image).merge(user_id: current_user.id)
   end
-
-  def authenticate_seller
-    if user_signed_in?
-      redirect_to root_path unless current_user == @item.user
-    else
-      redirect_to new_user_session_path
-    end
-  end
-
   def item_id_params
     @item = Item.find(params[:id])
+  end
+
+  def authenticate_seller
+    if @item.purchase_item
+      redirect_to root_path
+    else
+      if user_signed_in?
+        redirect_to root_path unless current_user == @item.user
+      else
+        redirect_to new_user_session_path
+      end
+    end
   end
 end
