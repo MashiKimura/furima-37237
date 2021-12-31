@@ -50,14 +50,14 @@ class ItemsController < ApplicationController
   end
 
   def authenticate_seller
-    if @item.purchase_item
-      redirect_to root_path
-    else
       if user_signed_in?
-        redirect_to root_path unless current_user == @item.user
+        if @item.purchase_item
+          redirect_to root_path
+        else
+          redirect_to root_path unless current_user == @item.user
+        end
       else
         redirect_to new_user_session_path
       end
-    end
   end
 end
