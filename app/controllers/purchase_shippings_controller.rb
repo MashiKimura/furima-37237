@@ -1,6 +1,6 @@
 class PurchaseShippingsController < ApplicationController
   before_action :item_id_params, only: [ :index, :create ]
-
+  before_action :authenticate_seller, only: [ :index, :create ]
   def index
     @purchase_shipping = PurchaseShipping.new
   end
@@ -21,9 +21,11 @@ class PurchaseShippingsController < ApplicationController
   def purchase_shipping_params
     params.require(:purchase_shipping).permit(:postcode, :prefecture_id, :city, :street_address, :building, :tel).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
   end
+
   def item_id_params
     @item = Item.find(params[:item_id])
   end
+
   def pay_item
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
@@ -31,5 +33,17 @@ class PurchaseShippingsController < ApplicationController
       card: purchase_shipping_params[:token],
       currency: 'jpy'
     )
+  end
+
+  def authenticate_seller
+    if user_signed_in?
+      if @item.purchase_item
+        redirect_to root_path
+      else
+        redirect_to root_path if current_user == @item.user
+      end
+    else
+      redirect_to new_user_session_path
+    end
   end
 end
