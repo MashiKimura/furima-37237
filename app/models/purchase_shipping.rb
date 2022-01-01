@@ -2,6 +2,8 @@ class PurchaseShipping
   include ActiveModel::Model
   attr_accessor :user_id, :item_id, :postcode, :prefecture_id, :city, :street_address, :building, :tel
 
+  attr_accessor :token
+
   # ここにバリデーションの処理を書く
   with_options presence: true do
     validates :user_id
@@ -11,6 +13,7 @@ class PurchaseShipping
     validates :city
     validates :street_address
     validates :tel, format: { with: /\A\d{10,11}\z/ }
+    validates :token
   end
 
   def save
