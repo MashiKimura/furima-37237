@@ -17,9 +17,9 @@ RSpec.describe PurchaseShipping, type: :model do
         expect(@order.errors.full_messages).to include("Postcode can't be blank")
       end
       it '郵便番号が「000-0000」の形でなければ登録できない' do
-        @order.postcode = 1112222
+        @order.postcode = 1_112_222
         @order.valid?
-        expect(@order.errors.full_messages).to include("Postcode is invalid")
+        expect(@order.errors.full_messages).to include('Postcode is invalid')
       end
       it '都道府県が空では登録できない' do
         @order.prefecture_id = ''
@@ -49,17 +49,17 @@ RSpec.describe PurchaseShipping, type: :model do
       it '電話番号が9文字以下では登録できない' do
         @order.tel = '000111122'
         @order.valid?
-        expect(@order.errors.full_messages).to include("Tel is invalid")
+        expect(@order.errors.full_messages).to include('Tel is invalid')
       end
       it '電話番号が12文字以上では登録できない' do
         @order.tel = '000111122223'
         @order.valid?
-        expect(@order.errors.full_messages).to include("Tel is invalid")
+        expect(@order.errors.full_messages).to include('Tel is invalid')
       end
       it '電話番号が全角では保存できない' do
         @order.tel = '０００１１１１２２２２'
         @order.valid?
-        expect(@order.errors.full_messages).to include("Tel is invalid")
+        expect(@order.errors.full_messages).to include('Tel is invalid')
       end
       it 'tokenが空では登録できない' do
         @order.token = nil

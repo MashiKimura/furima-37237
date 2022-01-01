@@ -1,6 +1,6 @@
 class PurchaseShippingsController < ApplicationController
-  before_action :item_id_params, only: [ :index, :create ]
-  before_action :authenticate_seller, only: [ :index, :create ]
+  before_action :item_id_params, only: [:index, :create]
+  before_action :authenticate_seller, only: [:index, :create]
   def index
     @purchase_shipping = PurchaseShipping.new
   end
@@ -19,7 +19,9 @@ class PurchaseShippingsController < ApplicationController
   private
 
   def purchase_shipping_params
-    params.require(:purchase_shipping).permit(:postcode, :prefecture_id, :city, :street_address, :building, :tel).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
+    params.require(:purchase_shipping).permit(:postcode, :prefecture_id, :city, :street_address, :building, :tel).merge(
+      user_id: current_user.id, item_id: params[:item_id], token: params[:token]
+    )
   end
 
   def item_id_params
@@ -27,7 +29,7 @@ class PurchaseShippingsController < ApplicationController
   end
 
   def pay_item
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
       amount: @item.price,
       card: purchase_shipping_params[:token],
@@ -39,8 +41,8 @@ class PurchaseShippingsController < ApplicationController
     if user_signed_in?
       if @item.purchase_item
         redirect_to root_path
-      else
-        redirect_to root_path if current_user == @item.user
+      elsif current_user == @item.user
+        redirect_to root_path
       end
     else
       redirect_to new_user_session_path
