@@ -2,12 +2,18 @@ require 'rails_helper'
 
 RSpec.describe PurchaseShipping, type: :model do
   before do
-    @order = FactoryBot.build(:purchase_shipping)
+    item = FactoryBot.build(:item)
+    @order = FactoryBot.build(:purchase_shipping, user_id: item.user.id, item_id: item.id)
   end
 
   describe  '商品購入機能' do
     context '商品の購入ができるとき' do
       it 'すべての項目が入力されていれば購入できる' do
+        expect(@order).to be_valid
+      end
+      it '建物が空でも保存できる' do
+        @order.building = ''
+        expect(@order).to be_valid  
       end
     end
     context '商品の購入ができないとき' do
@@ -65,6 +71,16 @@ RSpec.describe PurchaseShipping, type: :model do
         @order.token = nil
         @order.valid?
         expect(@order.errors.full_messages).to include("Token can't be blank")
+      end
+      it 'userが紐づいていなければ購入できない' do
+        @order.user_id = nil
+        @order.valid?
+        expect(@order.errors.full_messages).to include("User can't be blank")
+      end
+      it 'itemが紐づいていなければ購入できない' do
+        @order.item_id = nil
+        @order.valid?
+        expect(@order.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
