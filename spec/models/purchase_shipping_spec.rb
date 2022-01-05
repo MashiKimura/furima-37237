@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe PurchaseShipping, type: :model do
   before do
+    user = FactoryBot.build(:user)
     item = FactoryBot.build(:item)
-    @order = FactoryBot.build(:purchase_shipping, user_id: item.user.id, item_id: item.id)
+    @order = FactoryBot.build(:purchase_shipping, user_id: user.id, item_id: item.id)
   end
 
   describe  '商品購入機能' do

@@ -39,9 +39,7 @@ class PurchaseShippingsController < ApplicationController
 
   def authenticate_seller
     if user_signed_in?
-      if @item.purchase_item
-        redirect_to root_path
-      elsif current_user == @item.user
+      if @item.purchase_item || current_user == @item.user
         redirect_to root_path
       end
     else
