@@ -46,15 +46,17 @@ class ItemsController < ApplicationController
                                  :shipping_day_id, :price, :image).merge(user_id: current_user.id)
   end
 
+  def item_id_params
+    @item = Item.find(params[:id])
+  end
+
   def authenticate_seller
     if user_signed_in?
-      redirect_to root_path unless current_user == @item.user
+      if @item.purchase_item || current_user != @item.user
+        redirect_to root_path
+      end
     else
       redirect_to new_user_session_path
     end
-  end
-
-  def item_id_params
-    @item = Item.find(params[:id])
   end
 end
